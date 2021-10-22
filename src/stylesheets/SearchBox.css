@@ -44,6 +44,7 @@ body{
     border-radius: 5px;
     position: relative;
     cursor: pointer;
+    margin-left: 5px;
 }
 
 .searchbtn .fas{

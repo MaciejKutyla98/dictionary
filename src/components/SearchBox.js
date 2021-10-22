@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import '../stylesheets/SearchBox.css';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 export default function SearchBox(props){
+    const history = useHistory();
+    const subPageUrl = `/${props.enteredWord}`;
+    console.log(subPageUrl);
+
     return (
         <div className="wrapper">
             <input type="text"
@@ -15,7 +19,9 @@ export default function SearchBox(props){
             />
             <div className="searchbtn">
                 <Link to={`${props.enteredWord}`}>
-                    <button onClick={() => props.onClick()}>
+                    <button onClick={() => {
+                        history.push("/test");
+                    }}>
                         <i className="fas fa-search"></i>
                     </button>
                 </Link>
