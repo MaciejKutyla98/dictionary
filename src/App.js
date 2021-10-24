@@ -16,15 +16,19 @@ export default function App() {
         <Router>
             <Switch>
                 <Route exact path="/">
-                    <SearchBox
-                        onChange={(newValue) => {
-                            setEnteredWord(newValue)
-                        }}
-                        enteredWord={enteredWord}
-                    />
+                    <div className="searchBox">
+                        <SearchBox
+                            onChange={(newValue) => {
+                                setEnteredWord(newValue)
+                            }}
+                            enteredWord={enteredWord}
+                        />
+                    </div>
                 </Route>
                 <Route exact path="/:word">
+                    <div className="dictionaryEntry">
                         <DictionaryEntry enteredWord={enteredWord}/>
+                    </div>
                 </Route>
             </Switch>
         </Router>

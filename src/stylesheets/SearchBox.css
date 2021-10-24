@@ -8,14 +8,14 @@
     font-family: 'Comfortaa', cursive;
 }
 
-body{
+body {
     background: url('../images/books.jpg') no-repeat center;
     background-size: cover;
     width: 100%;
     height: 100vh;
 }
 
-.wrapper{
+.wrapper {
     position: absolute;
     top: 50%;
     left: 50%;

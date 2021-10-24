@@ -5,7 +5,6 @@ import {Link, useHistory} from "react-router-dom";
 export default function SearchBox(props){
     const history = useHistory();
     const subPageUrl = `/${props.enteredWord}`;
-    console.log(subPageUrl);
 
     return (
         <div className="wrapper">
