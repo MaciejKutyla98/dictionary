@@ -7,9 +7,12 @@ import nextId from "react-id-generator";
 export default function DictionaryEntry(props) {
     const [fetchedData, setFetchedData] = useState(null);
     const [loadingData, setLoadingData] = useState(true);
-    const [tittle, setTiittle] = useState('');
+    const [tittle, setTittle] = useState('');
     const [partOfSpeech, setPartOfSpeech] = useState('');
+    const [definitions, setDefinitions] = useState([]);
     const { word } = useParams();
+    const fetchedDefinitions = [];
+    const randomId = nextId();
 
     let url = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
 
@@ -26,16 +29,18 @@ export default function DictionaryEntry(props) {
 
     function transformFetchedData (fetchedData) {
         if (fetchedData !== null) {
-            setTiittle(fetchedData[0].word);
+            setTittle(fetchedData[0].word);
             setPartOfSpeech(fetchedData[0].meanings[0].partOfSpeech);
+            for (let i = 0; i < (fetchedData[0].meanings[0].definitions.length); i++) {
+                fetchedDefinitions.push(fetchedData[0].meanings[0].definitions[i].definition);
+            }
+            setDefinitions(fetchedDefinitions);
         }
     }
 
     useEffect(() => {
         fetchData();
     }, []);
-
-    console.log(fetchedData)
 
     return (
             loadingData ?
@@ -44,10 +49,19 @@ export default function DictionaryEntry(props) {
             </div>  :
                 (
                     <div className="contentOfPage">
-                        <h1>{tittle}</h1>
-                        <p>{`Part of speech: ${partOfSpeech}`}</p>
+                        <h1>{`Subject : ${tittle}`}</h1>
+                        <h2>{`Part of speech: ${partOfSpeech}`}</h2>
+                        <h3>{`Definition: `}</h3>
+                        {definitions.map((definition) => {
+                            return (
+                                <ul>
+                                    <li key={randomId}>
+                                        {definition}
+                                    </li>
+                                </ul>
+                            )
+                        })}
                     </div>
-)
-
-    );
+                )
+            );
 }
