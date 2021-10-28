@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import '../stylesheets/DictionaryEntry.css';
 import {useParams} from "react-router-dom";
-import * as ReactBootStrap from 'react-bootstrap';
+import {Spinner} from 'react-bootstrap';
 import nextId from "react-id-generator";
 
 export default function DictionaryEntry(props) {
     const [fetchedData, setFetchedData] = useState(null);
     const [loadingData, setLoadingData] = useState(true);
-    const [tittle, setTittle] = useState('');
-    const [partOfSpeech, setPartOfSpeech] = useState('');
-    const [definitions, setDefinitions] = useState([]);
     const { word } = useParams();
-    const fetchedDefinitions = [];
     const randomId = nextId();
-
     let url = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
 
+
     function fetchData () {
-        url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + props.enteredWord;
+        url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + word;
         fetch(url)
             .then(response => response.json())
             .then(data => setFetchedData(transformFetchedData(data)))
@@ -28,14 +24,21 @@ export default function DictionaryEntry(props) {
     }
 
     function transformFetchedData (fetchedData) {
+        const result = {
+            fetchedDefinitions: []
+        };
+
         if (fetchedData !== null) {
-            setTittle(fetchedData[0].word);
-            setPartOfSpeech(fetchedData[0].meanings[0].partOfSpeech);
-            for (let i = 0; i < (fetchedData[0].meanings[0].definitions.length); i++) {
-                fetchedDefinitions.push(fetchedData[0].meanings[0].definitions[i].definition);
-            }
-            setDefinitions(fetchedDefinitions);
+            result.title = fetchedData[0].word;
+            result.partOfSpeech = fetchedData[0].meanings[0].partOfSpeech;
+            fetchedData[0].meanings[0].definitions.forEach((definition) => {
+                result.fetchedDefinitions.push(definition.definition);
+                console.log(definition);
+            });
         }
+        console.log(fetchedData)
+        console.log(result)
+        return result;
     }
 
     useEffect(() => {
@@ -45,17 +48,17 @@ export default function DictionaryEntry(props) {
     return (
             loadingData ?
             <div className="spinner">
-                <ReactBootStrap.Spinner animation="grow" />
+                <Spinner animation="grow" />
             </div>  :
                 (
                     <div className="contentOfPage">
-                        <h1>{`Subject : ${tittle}`}</h1>
-                        <h2>{`Part of speech: ${partOfSpeech}`}</h2>
-                        <h3>{`Definition: `}</h3>
-                        {definitions.map((definition) => {
+                        <h1 className="subject">{`Subject : ${fetchedData.title}`}</h1>
+                        <h2 className="partOfSpeech">{`Part of speech: ${fetchedData.partOfSpeech}`}</h2>
+                        <h3 className="definition">{`Definition: `}</h3>
+                        {fetchedData.fetchedDefinitions.map((definition, index) => {
                             return (
-                                <ul>
-                                    <li key={randomId}>
+                                <ul key={index} className="definitionsList">
+                                    <li  className="definitionsItem">
                                         {definition}
                                     </li>
                                 </ul>

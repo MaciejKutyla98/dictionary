@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa');
 
-*{
-    margin: 0;
-    padding: 0;
-    outline: none;
-    box-sizing: border-box;
-    font-family: 'Comfortaa', cursive;
-}
-
 .wrapper {
     position: absolute;
     top: 50%;

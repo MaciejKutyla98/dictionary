@@ -27,7 +27,7 @@ export default function App() {
                 </Route>
                 <Route exact path="/:word">
                     <div className="dictionaryEntry">
-                        <DictionaryEntry enteredWord={enteredWord}/>
+                        <DictionaryEntry />
                     </div>
                 </Route>
             </Switch>
